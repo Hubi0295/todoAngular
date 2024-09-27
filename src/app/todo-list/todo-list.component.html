@@ -14,6 +14,7 @@
             [checked]="task.isComplete"
             (change)="changeTodoStatus(i)"
             >
+            
             <span class="todos-item" [ngClass]="{'text-decoration-line-through': task.isComplete}" [ngStyle]="{'color': task.isComplete ? 'green' : 'red'}">{{ i + 1}}. {{task.name}}</span>
         </li>
         </ng-container>
