@@ -1,0 +1,10 @@
+<li class="list-group-item" >
+    <input type="checkbox" class="form-check-input my-1" 
+    [checked]="task.isComplete"
+    (change)="changeTodoStatus(task)"
+    >
+    
+    <span class="todos-item" [ngClass]="{'text-decoration-line-through': task.isComplete}" [ngStyle]="{'color': task.isComplete ? 'green' : 'red'}">{{ i + 1}}. {{task.name}}</span>
+    <button type="button" class="btn btn-danger btn-sm mx-2" (click)="toggleModal()">Usuń</button>
+</li>
+<app-modal (close)="toggleModal()"[title]="'Czy na pewno chcesz usunąć zadanie o numerze: '+(i + 1)" *ngIf="openModal"></app-modal>
