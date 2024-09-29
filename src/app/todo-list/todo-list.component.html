@@ -1,19 +1,12 @@
-<p class="mt-4">Dodaj nowe zadanie</p>
-<input type="text" #name class="form-control" name="Todo">
-<button type="button" class="btn btn-primary mt-3" (click)="addTodo(name.value)">Dodaj zadanie</button>
+<app-add-todo-form (addTodo)="addTodo($event)"></app-add-todo-form>
 <app-alert *ngIf="errorMessage" [errorMessage]="errorMessage" (clearMessage)="clearErrorMessage()"></app-alert>
 <div class="mt-4">
     <h4>Zadania: </h4>
     <ul class="list-group todos-list" *ngIf="todos.length>0; else noTasks">
         <ng-container *ngFor="let task of todos; let i=index">
-        <li class="list-group-item" >
-            <input type="checkbox" class="form-check-input my-1" 
-            [checked]="task.isComplete"
-            (change)="changeTodoStatus(i)"
-            >
-            
-            <span class="todos-item" [ngClass]="{'text-decoration-line-through': task.isComplete}" [ngStyle]="{'color': task.isComplete ? 'green' : 'red'}">{{ i + 1}}. {{task.name}}</span>
-        </li>
+        <app-todo [task]="task" [i]="i">
+
+        </app-todo>
         </ng-container>
     </ul>
     <ng-template #noTasks>Aktualnie brak zadań</ng-template>

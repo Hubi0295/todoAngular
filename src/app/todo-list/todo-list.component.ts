@@ -19,9 +19,7 @@ export class TodoListComponent {
       console.log("Nowo dodane zadanie: ",todo);
       console.log("Aktualna lista todo: ",this.todos);
     }
-    changeTodoStatus(i: number){
-        this.todos[i].isComplete=!this.todos[i].isComplete;
-    }
+
     clearErrorMessage(){
       this.errorMessage='';
     }
