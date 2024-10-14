@@ -4,7 +4,7 @@
     <h4>Zadania: </h4>
     <ul class="list-group todos-list" *ngIf="todos.length>0; else noTasks">
         <ng-container *ngFor="let task of todos; let i=index">
-        <app-todo [task]="task" [i]="i">
+        <app-todo [task]="task" [i]="i" (delete)="deleteTodo(i)">
 
         </app-todo>
         </ng-container>

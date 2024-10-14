@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Todo} from '../../shared/interfaces/todo.interface'
 @Component({
   selector: 'app-todo',
@@ -8,11 +8,16 @@ import {Todo} from '../../shared/interfaces/todo.interface'
 export class TodoComponent {
     @Input() task!: Todo;
     @Input() i!: number;
+    @Output() delete = new EventEmitter<void>();
     openModal = false;
     changeTodoStatus(todo: Todo){
       todo.isComplete = !todo.isComplete;
-  }  
+  }
   toggleModal(): void{
     this.openModal=!this.openModal;
+  }
+
+  deleteTodo() {
+    this.delete.emit();
   }
 }
