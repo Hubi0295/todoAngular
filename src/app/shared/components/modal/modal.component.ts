@@ -9,6 +9,7 @@ export class ModalComponent {
   @Input() title!: string;
   @Output() close = new EventEmitter<void>();
   onClose(){
+
     this.close.emit();
   }
 }
