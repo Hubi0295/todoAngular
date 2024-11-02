@@ -7,7 +7,7 @@ import { TodoComponent } from './todo/todo.component';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements AfterViewChecked {
-    todos: Todo[]=[];
+    todos: Todo[]=JSON.parse(localStorage.getItem('todos')!) ?? [];
     errorMessage ='';
     @ViewChild(TodoComponent) TodoC !: TodoComponent;
     @ViewChildren(TodoComponent) TodoCs !: TodoComponent;
@@ -20,6 +20,7 @@ export class TodoListComponent implements AfterViewChecked {
     addTodo(todo: string): void {
       if(todo.length>3){
         this.todos.push({name: todo, isComplete: false});
+        localStorage.setItem('todos',JSON.stringify(this.todos));
       }
       else{
         this.errorMessage='Musi zawierać conajmniej 4 znaki!';
@@ -34,12 +35,16 @@ export class TodoListComponent implements AfterViewChecked {
     }
 
   deleteTodo(i: number) {
-    this.todos = this.todos.filter((todo,index)=> index!=i)
+    this.todos = this.todos.filter((todo,index)=> index!=i);
+    localStorage.setItem('todos',JSON.stringify(this.todos));
+
   }
   changeTodoStatus(i: number){
       this.todos[i]={
         ...this.todos[i],
         isComplete : !this.todos[i].isComplete
       }
+      localStorage.setItem('todos',JSON.stringify(this.todos));
+
   }
 }

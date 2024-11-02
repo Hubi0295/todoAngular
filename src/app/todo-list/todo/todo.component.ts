@@ -5,14 +5,14 @@ import {Todo} from '../../shared/interfaces/todo.interface'
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
-export class TodoComponent implements OnChanges, OnInit, DoCheck, AfterViewInit,OnDestroy {
+export class TodoComponent implements OnChanges, DoCheck, AfterViewInit,OnDestroy {
 
     @Input() task!: Todo;
     @Input() i!: number;
     @Output() delete = new EventEmitter<void>();
     @Output() changeStatus = new EventEmitter<number>();
     @ViewChild('li') li!:ElementRef;
-    
+    // keyValueTest: {[key:string]:string | number}={name:'test', age: 22};
     openModal = false;
     timeout!: number;
     changeTodoStatus(){
@@ -31,11 +31,11 @@ export class TodoComponent implements OnChanges, OnInit, DoCheck, AfterViewInit,
   ngDoCheck(): void {
       console.log('NG DOCHECK DZIALA');
   }
-  ngOnInit(): void {
-    this.timeout = setTimeout(()=>{
-      console.log('SetTimeout');
-    },3000)
-  }
+  // ngOnInit(): void {
+  //   this.timeout = setTimeout(()=>{
+  //     console.log('SetTimeout');
+  //   },3000)
+  // }
   ngOnChanges(changes: SimpleChanges): void {
         console.log(changes);
   }

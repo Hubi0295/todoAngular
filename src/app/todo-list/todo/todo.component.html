@@ -4,9 +4,23 @@
     (change)="changeTodoStatus()"
     >
 
-    <span class="todos-item" [ngClass]="{'text-decoration-line-through': task.isComplete}" [ngStyle]="{'color': task.isComplete ? 'green' : 'red'}">{{ i + 1}}. {{task.name}}</span>
+    <span class="todos-item" [ngClass]="{'text-decoration-line-through': task.isComplete}" [ngStyle]="{'color': task.isComplete ? 'green' : 'red'}">{{ i + 1}}. {{task.name | firstLetterUppercase}}</span>
     <button type="button" class="btn btn-danger btn-sm mx-2" (click)="toggleModal()">Usuń</button>
 </li>
+<!-- 
+Global and specific settings
+<p>{{1.5 | number:''}}</p>
+<p>{{0.25 | percent:''}}</p>
+<p>{{10 | currency:'PLN':'code':''}}</p> -->
+<p>{{"2024-12-01" | date:'fullDate':''}}</p>
+<!--pipe-->
+<!-- <p>{{task.name}}</p>
+<p>{{task.name | uppercase}}</p>
+<pre>{{task | json}}</pre>
+<p>{{task.name | slice:0:4}}</p> -->
+<!-- <p *ngFor="let item of keyValueTest | keyvalue">
+  {{item.key}}:{{item.key}}
+</p> -->
 <app-modal (close)="toggleModal()"[title]="'Czy na pewno chcesz usunąć zadanie o numerze: '+(i + 1)" *ngIf="openModal">
   <div class="d-flex justify-content-end" #modalDiv>
     <input type="checkbox" #check (change)="0">
