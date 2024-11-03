@@ -1,14 +1,26 @@
-import { AfterViewChecked, Component, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, Component, inject, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { Todo } from '../shared/interfaces/todo.interface';
 import { TodoComponent } from './todo/todo.component';
+import { TodoService } from '../core/services/todo.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.css']
 })
-export class TodoListComponent implements AfterViewChecked {
-    todos: Todo[]=JSON.parse(localStorage.getItem('todos')!) ?? [];
+export class TodoListComponent implements AfterViewChecked, OnInit, OnDestroy {
+    // todoService = inject(TodoService);
+    todos: Todo[]=this.todoService.todos;
     errorMessage ='';
+
+    constructor(private todoService: TodoService){};
+    sub !: Subscription;
+    ngOnInit(): void {
+        this.sub = this.todoService.todoChange.subscribe({
+          next: arrTodos => this.todos = arrTodos
+        })
+    }
+
     @ViewChild(TodoComponent) TodoC !: TodoComponent;
     @ViewChildren(TodoComponent) TodoCs !: TodoComponent;
     ngAfterViewInit(): void{
@@ -18,33 +30,25 @@ export class TodoListComponent implements AfterViewChecked {
         console.log(this.TodoC);
     }
     addTodo(todo: string): void {
-      if(todo.length>3){
-        this.todos.push({name: todo, isComplete: false});
-        localStorage.setItem('todos',JSON.stringify(this.todos));
-      }
-      else{
+      if(todo.length<4){
         this.errorMessage='Musi zawierać conajmniej 4 znaki!';
         return;
       }
-      console.log("Nowo dodane zadanie: ",todo);
-      console.log("Aktualna lista todo: ",this.todos);
+      this.todoService.addTodo(todo);
+
     }
 
-    clearErrorMessage(){
-      this.errorMessage='';
-    }
-
+  clearErrorMessage(){
+    this.errorMessage='';
+  }
   deleteTodo(i: number) {
-    this.todos = this.todos.filter((todo,index)=> index!=i);
-    localStorage.setItem('todos',JSON.stringify(this.todos));
-
+    this.todoService.deleteTodo(i);
   }
   changeTodoStatus(i: number){
-      this.todos[i]={
-        ...this.todos[i],
-        isComplete : !this.todos[i].isComplete
-      }
-      localStorage.setItem('todos',JSON.stringify(this.todos));
-
+    this.todoService.changeTodoStatus(i);
   }
+  ngOnDestroy(): void {
+        this.sub.unsubscribe;
+  }
+
 }
